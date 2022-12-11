@@ -1,26 +1,151 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/cofiguration-referen
+working_dir: &working_dir ~/app
 version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+####################################################################################################
+description: |
+  An orb for working with Amazon Elastic Container Service (ECS).
+  Supports the EC2 and Fargate launch types
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  workspace-full:
+    
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: docker:18.06.3-ce-git
+    resource_class: small
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: "Say hello"
-          command: curl ipinfo.io
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+          
+      
+            
+          
+  workspace-full-vnc:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+          
+      
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+  mdbook:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+          
+  workspace-dotnet:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+          
+  workspace-dotnet-vnc:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+          
+  workspace-postgres:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+          
+  workspace-mysql:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+  workspace-db:
+    
+    docker:
+      - image: docker:18.06.3-ce-git
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            ls
+            docker run -e CI=true aepna/debian:latest
+
+  
+          
+  
+          
+
+  
 workflows:
-  say-hello-workflow:
+  version: 2.1
+  build-and-deploy:
     jobs:
-      - say-hello
+      - workspace-full
+      - workspace-full-vnc
+      - workspace-db
+      - mdbook
+         
+      - workspace-dotnet
+          
+      - workspace-dotnet-vnc
+          
+      - workspace-postgres
+          
+      - workspace-mysql
